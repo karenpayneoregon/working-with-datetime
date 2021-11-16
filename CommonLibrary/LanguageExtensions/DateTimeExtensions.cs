@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace CommonLibrary.LanguageExtensions
 {
     /// <summary>
-    /// Common string extensions 
+    /// Common datetime extensions 
     /// </summary>
     public static class DateTimeExtensions
     {
@@ -18,18 +19,17 @@ namespace CommonLibrary.LanguageExtensions
         /// </summary>
         /// <param name="offsetTime"></param>
         /// <returns>time zone names</returns>
-        public static List<string> PossibleTimeZones(this DateTimeOffset offsetTime)
+        public static ImmutableList<string> PossibleTimeZones(this DateTimeOffset offsetTime)
         {
             List<string> list = new();
             TimeSpan offset = offsetTime.Offset;
 
             ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
-
             list.AddRange(from TimeZoneInfo timeZone in timeZones
                 where timeZone.GetUtcOffset(offsetTime.DateTime).Equals(offset)
                 select timeZone.DaylightName);
 
-            return list;
+            return list.ToImmutableList();
         }
         public static List<DateTime> ToDateTimeList(this IEnumerable<string> sender) =>
             Array

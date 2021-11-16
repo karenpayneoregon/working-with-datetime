@@ -1,35 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CommonLibrary.Classes;
 using CommonLibrary.LanguageExtensions;
 using ConsoleHelpers.Classes;
+using CommonLibrary.Models;
 using static System.DateTime;
 using static ConsoleHelpers.Classes.ConsoleColors;
 
 namespace DatesConsole1
 {
+    public class GroupYearMake
+    {
+        public int Year { get; set; }
+        public string Make { get; set; }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-
-            
-            InternetLocal();
-            //ConsoleWaiters.PressAnyKey(20);
-
+            GroupByYearPartOfDateTime();
         }
 
+        
         /// <summary>
         /// How to mock date/time, not acceptable for real unit testing
         /// </summary>
-        static void ClockMocked()
+        private static void ClockMocked()
         {
             Clock.Set(() => new DateTime(Now.Year, Now.Month -1, 14, Now.Hour -3, 23, 0));
             Task.Delay(2000).Wait();
@@ -42,7 +49,7 @@ namespace DatesConsole1
         ///
         /// This may be needed when incoming data is a long value
         /// </summary>
-        static void DateTime_Int_Constructor()
+        private static void DateTime_Int_Constructor()
         {
             WriteLineYellow("DateTime(Int64) constructor.");
 
@@ -60,13 +67,13 @@ namespace DatesConsole1
 
             Console.WriteLine($"Date/time: {dateTime}");
 
-            ConsoleWaiters.PressAnyKey();
+            ConsoleWaiters.PressEnterKey();
         }
 
         /// <summary>
         /// Create a new date time from year, month, day
         /// </summary>
-        static void DateTime_Year_Month_Day()
+        private static void DateTime_Year_Month_Day()
         {
             WriteLineYellow("DateTime(year, month, day) constructor.");
 
@@ -75,7 +82,7 @@ namespace DatesConsole1
             Console.WriteLine($"Unformatted: {dateTime}");
             Console.WriteLine($"  Formatted: {dateTime:d}");
             
-            ConsoleWaiters.PressAnyKey();
+            ConsoleWaiters.PressEnterKey();
         }
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace DatesConsole1
         /// 2. Change time using <seealso cref="DateTimeExtensions.At"/> by passing a TimeSpan
         /// 3. Change time using <seealso cref="DateTimeExtensions.At"/> by passing a hour, minutes and seconds
         /// </summary>
-        static void DateTime_Year_Month_Day_Hour_Min_Sec()
+        private static void DateTime_Year_Month_Day_Hour_Min_Sec()
         {
             WriteLineYellow("DateTime(year, month, day) constructor.");
 
@@ -106,7 +113,7 @@ namespace DatesConsole1
              */
             Console.WriteLine(dateTime.At(15,15,15));
 
-            ConsoleWaiters.PressAnyKey();
+            ConsoleWaiters.PressEnterKey();
         }
 
         /// <summary>
@@ -119,7 +126,7 @@ namespace DatesConsole1
             List<DateTime> dates = data.Select(DateTime.Parse).ToList();
 
             dates.ForEach(current => Console.WriteLine(current));
-            ConsoleWaiters.PressAnyKey();
+            ConsoleWaiters.PressEnterKey();
 
         }
 
@@ -139,7 +146,7 @@ namespace DatesConsole1
                 Console.WriteLine(index);
             }
 
-            ConsoleWaiters.PressAnyKey();
+            ConsoleWaiters.PressEnterKey();
 
         }
 
@@ -160,7 +167,7 @@ namespace DatesConsole1
              */
             WriteLineSplit($"Current {Now} == {dateTime2} ", $"{Now == dateTime2}");
 
-            ConsoleWaiters.PressAnyKey(10);
+            ConsoleWaiters.PressEnterKey(10);
 
         }
 
@@ -188,9 +195,52 @@ namespace DatesConsole1
                 "No match");
 
 
-            ConsoleWaiters.PressAnyKey(10);
+            ConsoleWaiters.PressEnterKey(10);
         }
 
+        /// <summary>
+        /// Using mocked data of type <see cref="Car"/> to perform group by and order by
+        ///
+        /// </summary>
+        private static void GroupByYearPartOfDateTime()
+        {
+            CarsService carsService = new();
+            var cars = carsService.GetAllCars();
+
+            List<CarItem> groupedCarItems = cars
+                .GroupBy(car => car.ProductionDate.Year)
+                .Select(@group => new CarItem
+                {
+                    Id = @group.Key,
+                    List = @group.ToList(),
+                    Count = @group.Count()
+                })
+                .OrderBy(carItem => carItem.Id)
+                .ToList();
+
+            StringBuilder builder = new();
+
+            foreach (var carItem in groupedCarItems)
+            {
+                builder.AppendLine($"{carItem.Id,-8}{carItem.Count}");
+
+                var items = carItem.List.GroupBy(x => x.Make).ToList();
+                foreach (var item in items.OrderBy(x => x.Key))
+                {
+                    foreach (var car in item.Ordering())
+                    {
+                        builder.AppendLine($"\t\t{car.Model, -5} {car.ProductionDate.ToString("MM/dd/yyyy")}");
+                    }
+                }
+
+            }
+
+            Debug.WriteLine(builder.ToString());
+
+        }
+        /// <summary>
+        /// Get time zones for a nullable <see cref="DateTimeOffset"/>
+        /// </summary>
         private static void InternetLocal()
         {
             WriteLineBold("This will take a few seconds", false);
@@ -200,14 +250,17 @@ namespace DatesConsole1
             {
                 DateTimeHelpers.ShowPossibleTimeZones(current.Value);
                 Console.WriteLine($"ReturnTimeOnServer: {DateTimeHelpers.ReturnTimeOnServer("11/15/2021 2:58:43 -08:00")}");
+
+                var zones = current.Value.PossibleTimeZones();
+                //zones[0] = "";
             }
             else
             {
                 Console.WriteLine("Failed");
             }
-
+            
             Console.WriteLine();
-            ConsoleWaiters.PressAnyKey(15);
+            ConsoleWaiters.PressEnterKey(15);
         }
         
         /// <summary>
@@ -225,9 +278,17 @@ namespace DatesConsole1
             var dateTime = TimeZoneInfo.ConvertTime(Now, timeZoneInfo);
             Console.WriteLine(dateTime.ToString("yyyy-MM-dd HH-mm-ss"));
 
-            ConsoleWaiters.PressAnyKey();
+            ConsoleWaiters.PressEnterKey();
 
         }
 
+        [ModuleInitializer]
+        public static void IntialSetup()
+        {
+            Console.Title = "Code samples";
+
+        }
     }
+
+    
 }

@@ -10,13 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console projects", "Console projects", "{D1FFB21B-22B7-4E10-A3E2-0C345E25917D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatesConsole1", "DatesConsole1\DatesConsole1.csproj", "{407FE1DA-DBDB-4A1A-9662-CD669A820DB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatesConsole1", "DatesConsole1\DatesConsole1.csproj", "{407FE1DA-DBDB-4A1A-9662-CD669A820DB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper projects", "Helper projects", "{5DA0FE65-AC52-4E1A-8A6F-300D26076526}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleHelpers", "ConsoleHelpers\ConsoleHelpers.csproj", "{FF2C98F6-D54A-4CD6-9C9F-DD7D960608B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleHelpers", "ConsoleHelpers\ConsoleHelpers.csproj", "{FF2C98F6-D54A-4CD6-9C9F-DD7D960608B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{C8F5DE79-CAD1-4AE7-A95C-A15AF658F61A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{C8F5DE79-CAD1-4AE7-A95C-A15AF658F61A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

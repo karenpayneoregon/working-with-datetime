@@ -30,7 +30,7 @@ namespace ConsoleHelpers.Classes
 
         }
 
-        public static void PressAnyKey(int seconds = 5)
+        public static void PressEnterKey(int seconds = 5)
         {
             var timeSpan = TimeSpan.FromSeconds(seconds);
             var task = Task.Factory.StartNew(Console.ReadLine);
