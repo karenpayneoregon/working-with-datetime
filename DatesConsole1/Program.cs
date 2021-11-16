@@ -19,11 +19,7 @@ using static ConsoleHelpers.Classes.ConsoleColors;
 
 namespace DatesConsole1
 {
-    public class GroupYearMake
-    {
-        public int Year { get; set; }
-        public string Make { get; set; }
-    }
+
 
     class Program
     {
