@@ -18,7 +18,7 @@ namespace DatesConsole1
 {
 
     /// <summary>
-    /// Code samples to dipping into DateTime
+    /// Code samples to dip into DateTime
     /// </summary>
     abstract class Program
     {
