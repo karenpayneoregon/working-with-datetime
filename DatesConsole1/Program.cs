@@ -1,44 +1,66 @@
-﻿using System;
+﻿using CommonLibrary.Classes;
+using CommonLibrary.LanguageExtensions;
+using CommonLibrary.Models;
+using ConsoleHelpers.Classes;
+using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using CommonLibrary.Classes;
-using CommonLibrary.LanguageExtensions;
-using ConsoleHelpers.Classes;
-using CommonLibrary.Models;
-using static System.DateTime;
 using static ConsoleHelpers.Classes.ConsoleColors;
+using static System.DateTime;
 
 namespace DatesConsole1
 {
 
-
-    class Program
+    /// <summary>
+    /// Code samples to dipping into DateTime
+    /// </summary>
+    abstract class Program
     {
         static void Main(string[] args)
         {
-            GroupByYearPartOfDateTime();
+            string userInput = "";
+
+            do
+            {
+                userInput = Menu.DisplayMenu();
+
+                PerformAction(userInput);
+
+            } while (userInput != "Q");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userInput"></param>
+        private static void PerformAction(string userInput)
+        {
+            var dict = new Dictionary<string, Action>
+            {
+                { "A", DateTime_Int_Constructor },
+                { "B", DateTime_Year_Month_Day },
+                { "C", DateTime_Year_Month_Day_Hour_Min_Sec },
+                { "D", StringToDateTimePerfect },
+                { "E", StringToDateTimeRealWorld },
+                { "F", CompareDateTime1 },
+                { "G", CompareDatesAsString },
+                { "H", DateTimeRoundUp },
+                { "I", FormatTimeSpan },
+                { "J", FormatElapsedTimeSpan },
+                { "K", ClockMocked },
+                { "Q: Quit", null }
+            };
+
+            if (dict.ContainsKey(userInput))
+            {
+                dict[userInput]();
+            }
         }
 
-        
-        /// <summary>
-        /// How to mock date/time, not acceptable for real unit testing
-        /// </summary>
-        private static void ClockMocked()
-        {
-            Clock.Set(() => new DateTime(Now.Year, Now.Month -1, 14, Now.Hour -3, 23, 0));
-            Task.Delay(2000).Wait();
-            var time = Clock.UtcNow;
-            Console.WriteLine(time);
-        }
 
         /// <summary>
         /// Create date time from long value, in this case for the current date/time
@@ -178,7 +200,6 @@ namespace DatesConsole1
             if (DateTime.Parse(value1, CultureInfo.InvariantCulture) == DateTime.Parse(value2, CultureInfo.InvariantCulture))
             {
                 Console.WriteLine("Match");
-                
             }
 
             /*
@@ -193,6 +214,82 @@ namespace DatesConsole1
 
             ConsoleWaiters.PressEnterKey(10);
         }
+
+        /// <summary>
+        /// Round up current time to the next quarter hour
+        /// </summary>
+        private static void DateTimeRoundUp()
+        {
+            var result = DateTime.Now.RoundUp(TimeSpan.FromMinutes(15));
+
+            Console.WriteLine($"Now: {Now} Up: {result}");
+            ConsoleWaiters.PressEnterKey();
+        }
+
+        /// <summary>
+        /// Format a <see cref="TimeSpan"/> AM/PM
+        /// </summary>
+        private static void FormatTimeSpan()
+        {
+
+            var timeSpans = Enumerable.Range(8, 15).Select( hour => new TimeSpan(hour,10,0));
+
+            foreach (var span in timeSpans)
+            {
+                Console.WriteLine(span.Formatted());
+            }
+
+            ConsoleWaiters.PressEnterKey();
+        }
+
+        /// <summary>
+        /// Get time zones for a nullable <see cref="DateTimeOffset"/>
+        /// </summary>
+        private static void InternetLocal()
+        {
+            WriteLineBold("This will take a few seconds", false);
+
+            var current = InternetHelpers.LocalTime();
+            if (current.HasValue)
+            {
+                DateTimeHelpers.ShowPossibleTimeZones(current.Value);
+                Console.WriteLine($"ReturnTimeOnServer: {DateTimeHelpers.ReturnTimeOnServer("11/15/2021 2:58:43 -08:00")}");
+
+                var zones = current.Value.PossibleTimeZones();
+                //zones[0] = "";
+            }
+            else
+            {
+                Console.WriteLine("Failed");
+            }
+            
+            Console.WriteLine();
+            ConsoleWaiters.PressEnterKey(15);
+        }
+
+        /// <summary>
+        /// Display elapsed time
+        /// </summary>
+        private static void FormatElapsedTimeSpan()
+        {
+            TimeSpan timeSpan = new (30, 13, 23, 24);
+            Console.WriteLine(timeSpan.FormatElapsed());
+            ConsoleWaiters.PressEnterKey(15);
+        }
+
+        /// <summary>
+        /// How to mock date/time, not acceptable for real unit testing
+        /// </summary>
+        private static void ClockMocked()
+        {
+            Clock.Set(() => new DateTime(Now.Year, Now.Month -1, 14, Now.Hour -3, 23, 0));
+            Task.Delay(2000).Wait();
+            var time = Clock.UtcNow;
+            Console.WriteLine(time);
+            ConsoleWaiters.PressEnterKey(15);
+        }
+
+        #region Optional
 
         /// <summary>
         /// Using mocked data of type <see cref="Car"/> to perform group by and order by
@@ -225,7 +322,7 @@ namespace DatesConsole1
                 {
                     foreach (var car in item.Ordering())
                     {
-                        builder.AppendLine($"\t\t{car.Model, -5} {car.ProductionDate.ToString("MM/dd/yyyy")}");
+                        builder.AppendLine($"\t\t{car.Model,-5} {car.ProductionDate.ToString("MM/dd/yyyy")}");
                     }
                 }
 
@@ -234,31 +331,7 @@ namespace DatesConsole1
             Debug.WriteLine(builder.ToString());
 
         }
-        /// <summary>
-        /// Get time zones for a nullable <see cref="DateTimeOffset"/>
-        /// </summary>
-        private static void InternetLocal()
-        {
-            WriteLineBold("This will take a few seconds", false);
 
-            var current = InternetHelpers.LocalTime();
-            if (current.HasValue)
-            {
-                DateTimeHelpers.ShowPossibleTimeZones(current.Value);
-                Console.WriteLine($"ReturnTimeOnServer: {DateTimeHelpers.ReturnTimeOnServer("11/15/2021 2:58:43 -08:00")}");
-
-                var zones = current.Value.PossibleTimeZones();
-                //zones[0] = "";
-            }
-            else
-            {
-                Console.WriteLine("Failed");
-            }
-            
-            Console.WriteLine();
-            ConsoleWaiters.PressEnterKey(15);
-        }
-        
         /// <summary>
         /// Show russian date time for now
         /// </summary>
@@ -278,13 +351,14 @@ namespace DatesConsole1
 
         }
 
+        #endregion
+
         [ModuleInitializer]
-        public static void IntialSetup()
+        public static void Initialize()
         {
             Console.Title = "Code samples";
-
+            IntPtr ptr = ConsoleUtils.GetConsoleWindow();
+            ConsoleUtils.MoveWindow(ptr, 0, 0, 1000, 400, true);
         }
     }
-
-    
 }
