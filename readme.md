@@ -12,3 +12,9 @@ There are basic, intermediate and advance level code samples. Suggest examining 
 
 ![img](assets/screenMain.png)
 
+# You may also like
+
+- [SQL-Server: Exploration of datetime2(7) precision](https://github.com/karenpayneoregon/sql-server-datetime2)
+- [SQL-Server: Computed columns](https://github.com/karenpayneoregon/sql-server-computed-columns)
+- [Working with DateOnly and TimeOnly (C#)](https://github.com/karenpayneoregon/dataonly-timeonly)
+
