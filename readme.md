@@ -16,5 +16,6 @@ There are basic, intermediate and advance level code samples. Suggest examining 
 
 - [SQL-Server: Exploration of datetime2(7) precision](https://github.com/karenpayneoregon/sql-server-datetime2)
 - [SQL-Server: Computed columns](https://github.com/karenpayneoregon/sql-server-computed-columns)
+    - Focus on projects `EntityFrameworkCore` and `SqlProviders` which work with dates
 - [Working with DateOnly and TimeOnly (C#)](https://github.com/karenpayneoregon/dataonly-timeonly)
 
