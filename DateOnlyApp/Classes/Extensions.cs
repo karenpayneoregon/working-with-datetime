@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace DateOnlyApp.Classes;
 internal static class Extensions
 {
+    public static void Deconstruct(this DateOnly date, out int day, out int month, out int year) =>
+        (day, month, year) = (date.Day, date.Month, date.Year);
+
     public static bool IsWeekend(this DateTime sender)
         => (sender.DayOfWeek == DayOfWeek.Sunday || sender.DayOfWeek == DayOfWeek.Saturday);
 
@@ -27,5 +26,23 @@ internal static class Extensions
     public static bool IsWeekDay(this DateOnly sender)
         => !sender.IsWeekend();
 
+    /// <summary>
+    /// Get all days in month as <see cref="DateOnly"/> list
+    /// </summary>
+    /// <param name="month">Month index</param>
+    /// <returns>list of date only for given month</returns>
+    public static List<DateOnly> GetMonthDays(this int month)
+    {
+        var year = DateTime.Now.Year;
+
+        return Enumerable.Range(1, DateTime.DaysInMonth(year, month))
+            .Select(day => new DateOnly(year, month, day))
+            .ToList();
+    }
+
     public static string ToYesNo(this bool value) => value ? "Yes" : "No";
+
+    public static string SplitCamelCase(this string sender) =>
+        string.Join(" ", Regex.Matches(sender, @"([A-Z][a-z]+)")
+            .Select(m => m.Value));
 }
