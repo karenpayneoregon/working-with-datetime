@@ -22,6 +22,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormatUtility", "formatting
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormattableStringDateTimeApp", "FormattableStringDateTimeApp\FormattableStringDateTimeApp.csproj", "{E64F27FE-B76E-444D-B50B-1E718F4C0F38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateOnlyApp", "DateOnlyApp\DateOnlyApp.csproj", "{AC63E607-6B4B-4F3B-A2AE-7EE3975CA05A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewtonsoftDateOnlyTimeOnlyApp", "NewtonsoftDateOnlyTimeOnlyApp\NewtonsoftDateOnlyTimeOnlyApp.csproj", "{D0358488-AC5D-4A61-9AE1-1A8660A9CB27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,14 @@ Global
 		{E64F27FE-B76E-444D-B50B-1E718F4C0F38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E64F27FE-B76E-444D-B50B-1E718F4C0F38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E64F27FE-B76E-444D-B50B-1E718F4C0F38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC63E607-6B4B-4F3B-A2AE-7EE3975CA05A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC63E607-6B4B-4F3B-A2AE-7EE3975CA05A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC63E607-6B4B-4F3B-A2AE-7EE3975CA05A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC63E607-6B4B-4F3B-A2AE-7EE3975CA05A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0358488-AC5D-4A61-9AE1-1A8660A9CB27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0358488-AC5D-4A61-9AE1-1A8660A9CB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0358488-AC5D-4A61-9AE1-1A8660A9CB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0358488-AC5D-4A61-9AE1-1A8660A9CB27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +70,8 @@ Global
 		{C8F5DE79-CAD1-4AE7-A95C-A15AF658F61A} = {5DA0FE65-AC52-4E1A-8A6F-300D26076526}
 		{F5C87AAC-8F31-4561-B148-25A5BB894916} = {5DA0FE65-AC52-4E1A-8A6F-300D26076526}
 		{E64F27FE-B76E-444D-B50B-1E718F4C0F38} = {D1FFB21B-22B7-4E10-A3E2-0C345E25917D}
+		{AC63E607-6B4B-4F3B-A2AE-7EE3975CA05A} = {D1FFB21B-22B7-4E10-A3E2-0C345E25917D}
+		{D0358488-AC5D-4A61-9AE1-1A8660A9CB27} = {D1FFB21B-22B7-4E10-A3E2-0C345E25917D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B4CF0F2-A0B7-4FC7-9C15-52025A773119}
