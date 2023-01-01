@@ -1,6 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
+#pragma warning disable SYSLIB0014
+#pragma warning disable SYSLIB0014
 
 namespace CommonLibrary.Classes
 {
@@ -49,7 +50,7 @@ namespace CommonLibrary.Classes
             var request = WebRequest.Create(site);
             var response = request.GetResponse();
 
-            string currentHeader = response.Headers["date"];
+            string currentHeader = response.Headers["date"]!;
 
             var dateTimeOffset = DateTimeOffset.ParseExact(currentHeader!, "ddd, dd MMM yyyy HH:mm:ss 'GMT'",
                 CultureInfo.InvariantCulture.DateTimeFormat,

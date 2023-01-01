@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading;
+#pragma warning disable CS8603
 
 namespace CommonLibrary.Classes
 {
@@ -15,14 +16,14 @@ namespace CommonLibrary.Classes
         public DateTimeProviderContext(DateTime contextDateTimeNow)
         {
             ContextDateTimeNow = contextDateTimeNow;
-            ThreadScopeStack.Value.Push(this);
+            ThreadScopeStack.Value!.Push(this);
         }
 
-        public static DateTimeProviderContext Current => ThreadScopeStack.Value.Count == 0 ? null : ThreadScopeStack.Value.Peek() as DateTimeProviderContext;
+        public static DateTimeProviderContext Current => ThreadScopeStack.Value!.Count == 0 ? null : ThreadScopeStack.Value.Peek() as DateTimeProviderContext;
 
         public void Dispose()
         {
-            ThreadScopeStack.Value.Pop();
+            ThreadScopeStack.Value!.Pop();
         }
     }
 }

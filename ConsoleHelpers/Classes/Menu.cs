@@ -78,7 +78,7 @@ public static class Menu
 
         Console.Clear();
 
-        return result.ToUpper();
+        return result!.ToUpper();
 
     }
 

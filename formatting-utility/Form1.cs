@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Numerics;
-using System.Reflection;
 using System.Resources;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -37,7 +35,7 @@ namespace Formatter
             Shown += OnShown;
         }
 
-        private void OnShown(object? sender, EventArgs e)
+        private void OnShown(object sender, EventArgs e)
         {
             ValueTextBox.Text = DateTime.Now.ToString(CultureInfo.InvariantCulture);
             DateBox.Checked = true;

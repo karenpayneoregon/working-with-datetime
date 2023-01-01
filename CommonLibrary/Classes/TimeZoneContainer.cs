@@ -1,4 +1,5 @@
-﻿namespace CommonLibrary.Classes
+﻿#pragma warning disable CS8618
+namespace CommonLibrary.Classes
 {
     public class TimeZoneContainer
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-
+﻿
 namespace CommonLibrary.Classes
 {
     public static class Clock
@@ -18,7 +16,7 @@ namespace CommonLibrary.Classes
 
         public static void Reset()
         {
-            _override.Value = null;
+            _override.Value = null!;
         }
     }
 }

@@ -20,7 +20,7 @@ public static class ConsoleWaiters
 
         var result = (Task.WaitAny(new Task[] { task }, timeSpan) == 0) ? task.Result : string.Empty;
 
-        return result;
+        return result!;
 
     }
 

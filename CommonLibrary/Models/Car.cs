@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿
+#pragma warning disable CS8618
 namespace CommonLibrary.Models
 {
     public class Car
